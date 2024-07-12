@@ -31,7 +31,6 @@ def get_performance(data_list, data_path, window_size):
 
         for date in os.listdir(path):
             model = MKWIForestBatchPipeline(
-                monitor_factory=factory,
                 score_threshold=0.8,
                 alpha=0.05,
                 slope_threshold=0.1,
@@ -67,7 +66,6 @@ def main():
     for window_size in window_sizes:
         print("MEASURING WINDOW SIZE: ", window_size)
         get_performance(data_list, data_path, window_size)
-        input("Press Enter to continue...")
 
 
 if __name__ == '__main__':
