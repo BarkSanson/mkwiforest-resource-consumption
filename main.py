@@ -49,8 +49,10 @@ def get_performance(data_list, data_path, window_size):
                     pd.DataFrame({
                         'element': ['Mann-Kendall-Wilcoxon', 'Scoring', 'Retraining'],
                         'cpu_max': [drift['cpu_percent'].max(), scoring['cpu_percent'].max(), retraining['cpu_percent'].max()],
-                        'cpu_percent': [drift['cpu_percent'].mean(), scoring['cpu_percent'].mean(), retraining['cpu_percent'].mean()],
-                        'memory_mib': [drift['memory_mib'].mean(), scoring['memory_mib'].mean(), retraining['memory_mib'].mean()]
+                        'cpu_percent_mean': [drift['cpu_percent'].mean(), scoring['cpu_percent'].mean(), retraining['cpu_percent'].mean()],
+                        'cpu_std_dev': [drift['cpu_percent'].std(), scoring['cpu_percent'].std(), retraining['cpu_percent'].std()],
+                        'memory_mib': [drift['memory_mib'].mean(), scoring['memory_mib'].mean(), retraining['memory_mib'].mean()],
+                        'max_memory_mib': [drift['memory_mib'].max(), scoring['memory_mib'].max(), retraining['memory_mib'].max()]
                     }).to_csv(os.path.join(os.getcwd(), f"./{window_size}_performance.csv"), index=False)
 
                     return
