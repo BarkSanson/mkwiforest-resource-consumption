@@ -2,7 +2,6 @@ import os
 
 import pandas as pd
 
-from monitor_factory import MonitorFactory
 from online_outlier_detection.pipelines import MKWIForestBatchPipeline
 
 INTERVAL = 0.01
@@ -23,8 +22,6 @@ def merge_data(date_dir):
 
 def get_performance(data_list, data_path, window_size):
     performance = pd.DataFrame(columns=['element', 'cpu_percent', 'memory_mib'])
-    pid = os.getpid()
-    factory = MonitorFactory(pid, INTERVAL, performance)
 
     for station in data_list:
         path = f"{data_path}/{station}"

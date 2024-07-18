@@ -6,6 +6,8 @@ import numpy as np
 from online_outlier_detection.window import Window
 from online_outlier_detection.drift import BaseDriftDetector
 
+from pulse import generate_trigger_pulse
+
 
 class BaseDetectorPipeline(ABC):
     def __init__(self,
@@ -50,7 +52,9 @@ class BaseDetectorPipeline(ABC):
         return scores, labels
 
     def _retrain(self):
+        generate_trigger_pulse(0.01)
         self.reference_window = self.window.get().copy()
         self.model.fit(self.reference_window.reshape(-1, 1))
+        generate_trigger_pulse(0.01)
         self._retrains += 1
         print(f"Retraining model... Number of retrains: {self._retrains}")
