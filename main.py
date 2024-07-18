@@ -69,7 +69,6 @@ def main():
     for window_size in window_sizes:
         print("MEASURING WINDOW SIZE: ", window_size)
         get_performance(data_list, data_path, window_size)
-        input("Press Enter to continue...")
 
 
 if __name__ == '__main__':
