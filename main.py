@@ -1,12 +1,13 @@
 import os
+import tracemalloc
 
 import pandas as pd
 
-from monitor_factory import MonitorFactory
+from monitor import Monitor
 from online_outlier_detection.pipelines import MKWIForestBatchPipeline
 
 INTERVAL = 0.01
-MAX_SAMPLES = 20
+MAX_SAMPLES = 100
 
 
 def merge_data(date_dir):
@@ -22,16 +23,15 @@ def merge_data(date_dir):
 
 
 def get_performance(data_list, data_path, window_size):
-    performance = pd.DataFrame(columns=['element', 'cpu_percent', 'memory_mib'])
     pid = os.getpid()
-    factory = MonitorFactory(pid, INTERVAL, performance)
+    monitor = Monitor(pid)
 
     for station in data_list:
         path = f"{data_path}/{station}"
 
         for date in os.listdir(path):
             model = MKWIForestBatchPipeline(
-                monitor_factory=factory,
+                monitor=monitor,
                 score_threshold=0.8,
                 alpha=0.05,
                 slope_threshold=0.1,
@@ -41,19 +41,8 @@ def get_performance(data_list, data_path, window_size):
             for _, x in df.iterrows():
                 if MKWIForestBatchPipeline.SAMPLES >= MAX_SAMPLES:
                     MKWIForestBatchPipeline.SAMPLES = 0
-                    drift = performance[performance['element'] == 'Mann-Kendall-Wilcoxon']
-                    scoring = performance[performance['element'] == 'Scoring']
-                    retraining = performance[performance['element'] == 'Retraining']
 
-                    # Dump results into a log file
-                    pd.DataFrame({
-                        'element': ['Mann-Kendall-Wilcoxon', 'Scoring', 'Retraining'],
-                        'cpu_max': [drift['cpu_percent'].max(), scoring['cpu_percent'].max(), retraining['cpu_percent'].max()],
-                        'cpu_percent_mean': [drift['cpu_percent'].mean(), scoring['cpu_percent'].mean(), retraining['cpu_percent'].mean()],
-                        'cpu_std_dev': [drift['cpu_percent'].std(), scoring['cpu_percent'].std(), retraining['cpu_percent'].std()],
-                        'memory_mib': [drift['memory_mib'].mean(), scoring['memory_mib'].mean(), retraining['memory_mib'].mean()],
-                        'max_memory_mib': [drift['memory_mib'].max(), scoring['memory_mib'].max(), retraining['memory_mib'].max()]
-                    }).to_csv(os.path.join(os.getcwd(), f"./{window_size}_performance.csv"), index=False)
+                    monitor.write(window_size)
 
                     return
 
