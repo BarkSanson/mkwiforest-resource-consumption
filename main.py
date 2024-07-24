@@ -1,7 +1,8 @@
 import os
-import tracemalloc
 
 import pandas as pd
+
+import tracemalloc
 
 from monitor import Monitor
 from online_outlier_detection.pipelines import MKWIForestBatchPipeline
@@ -50,6 +51,7 @@ def get_performance(data_list, data_path, window_size):
 
 
 def main():
+    tracemalloc.start()
     window_sizes = [32, 64, 128, 256]
 
     data_path = "./labeled_data"
@@ -58,6 +60,13 @@ def main():
     for window_size in window_sizes:
         print("MEASURING WINDOW SIZE: ", window_size)
         get_performance(data_list, data_path, window_size)
+
+    snapshot = tracemalloc.take_snapshot()
+    top_stats = snapshot.statistics('lineno')
+
+    print("[ Top 50 ]")
+    for stat in top_stats[:50]:
+        print(stat)
 
 
 if __name__ == '__main__':

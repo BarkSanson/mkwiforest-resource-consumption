@@ -23,6 +23,8 @@ class MKWIForestBatchPipeline(BatchDetectorPipeline):
         self.monitor = monitor
         self.drift_detector = MannKendallWilcoxonDriftDetector(self.monitor, alpha, slope_threshold)
 
+        self.monitor.add_pipeline(self)
+
     def update(self, x) -> Union[Tuple[np.ndarray, np.ndarray], None]:
         self.window.append(x)
 
