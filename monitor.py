@@ -22,7 +22,7 @@ class Monitor(threading.Thread):
 
     def run(self):
         while self._running:
-            online_window_size_kib = asizeof.asizeof(self._pipeline.window) / 1024
+            online_window_size_kib = asizeof.asizeof(self._pipeline.window.data) / 1024
             reference_window_size_kib = asizeof.asizeof(self._pipeline.reference_window) / 1024
             iforest_kib = asizeof.asizeof(self._pipeline.model) / 1024
             memory_kib = self._process.memory_info().rss / 1024 - asizeof.asizeof(self._memory_df) / 1024
