@@ -7,7 +7,7 @@ from monitor import Monitor
 from online_outlier_detection.pipelines import MKWIForestBatchPipeline
 
 INTERVAL = 0.5
-MAX_SAMPLES = 200
+MAX_SAMPLES = 100
 
 
 def merge_data(date_dir):
