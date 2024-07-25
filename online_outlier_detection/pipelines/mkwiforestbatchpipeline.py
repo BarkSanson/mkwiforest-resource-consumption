@@ -6,8 +6,6 @@ from sklearn.ensemble import IsolationForest
 from online_outlier_detection.drift import MannKendallWilcoxonDriftDetector
 from online_outlier_detection.pipelines.base.batch_detector_pipeline import BatchDetectorPipeline
 
-from memory_profiler import profile
-
 
 class MKWIForestBatchPipeline(BatchDetectorPipeline):
     SAMPLES = 0
@@ -23,7 +21,6 @@ class MKWIForestBatchPipeline(BatchDetectorPipeline):
 
         self.samples = 0
 
-    @profile
     def update(self, x) -> Union[Tuple[np.ndarray, np.ndarray], None]:
         self.window.append(x)
 
