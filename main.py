@@ -3,6 +3,8 @@ import sys
 
 import pandas as pd
 
+import RPi.GPIO as GPIO
+
 from online_outlier_detection.pipelines import MKWIForestBatchPipeline
 
 MAX_SAMPLES = 100
@@ -42,6 +44,9 @@ def main():
                     return
 
                 _ = model.update(x['value'])
+
+    # Clear pin
+    GPIO.cleanup()
 
 
 if __name__ == '__main__':
