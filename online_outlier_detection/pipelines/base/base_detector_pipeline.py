@@ -52,9 +52,7 @@ class BaseDetectorPipeline(ABC):
         return scores, labels
 
     def _retrain(self):
-        generate_trigger_pulse(0.01)
+        generate_trigger_pulse()
+        generate_trigger_pulse()
         self.reference_window = self.window.get().copy()
         self.model.fit(self.reference_window.reshape(-1, 1))
-        generate_trigger_pulse(0.01)
-        self._retrains += 1
-        print(f"Retraining model... Number of retrains: {self._retrains}")
