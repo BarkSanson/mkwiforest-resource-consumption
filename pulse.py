@@ -16,4 +16,5 @@ def generate_trigger_pulse(continued=False):
 
 
 def clean():
+    GPIO.output(TRIGGER_PIN, GPIO.LOW)
     GPIO.cleanup()
