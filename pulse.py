@@ -12,7 +12,7 @@ def generate_trigger_pulse(continued=False):
     GPIO.output(TRIGGER_PIN, GPIO.HIGH)
     time.sleep(0.1)
     GPIO.output(TRIGGER_PIN, GPIO.LOW)
-    time.sleep(0.1 if continued else 0.01)
+    time.sleep(0.01 if continued else 0.1)
 
 
 def clean():
