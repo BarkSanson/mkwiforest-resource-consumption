@@ -21,6 +21,7 @@ def main():
             slope_threshold=0.1,
             window_size=window_size)
 
+        pulse.generate_trigger_pulse()
         for b in blocks:
             for x in b:
                 _ = model.update(x)
