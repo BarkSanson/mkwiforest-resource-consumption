@@ -36,8 +36,6 @@ class MKWIForestBatchPipeline(BatchDetectorPipeline):
         if self.drift_detector.detect_drift(self.window.get(), self.reference_window):
             self._retrain()
 
-            generate_trigger_pulse(True)
-            generate_trigger_pulse(True)
             generate_trigger_pulse()
             scores = np.abs(self.model.score_samples(self.reference_window.reshape(-1, 1)))
             labels = np.where(scores > self.score_threshold, 1, 0)
@@ -45,9 +43,6 @@ class MKWIForestBatchPipeline(BatchDetectorPipeline):
             self.window.clear()
             return scores, labels
 
-        generate_trigger_pulse(True)
-        generate_trigger_pulse(True)
-        generate_trigger_pulse(True)
         generate_trigger_pulse()
         scores = np.abs(self.model.score_samples(self.window.get().reshape(-1, 1)))
         labels = np.where(scores > self.score_threshold, 1, 0)

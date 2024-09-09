@@ -10,9 +10,8 @@ GPIO.setup(TRIGGER_PIN, GPIO.OUT)
 
 def generate_trigger_pulse(continued=False):
     GPIO.output(TRIGGER_PIN, GPIO.HIGH)
-    time.sleep(0.1)
+    time.sleep(0.001)
     GPIO.output(TRIGGER_PIN, GPIO.LOW)
-    time.sleep(0.01 if continued else 0.1)
 
 
 def clean():

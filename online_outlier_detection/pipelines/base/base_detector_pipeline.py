@@ -52,7 +52,6 @@ class BaseDetectorPipeline(ABC):
         return scores, labels
 
     def _retrain(self):
-        generate_trigger_pulse(True)
         generate_trigger_pulse()
         self.reference_window = self.window.get().copy()
         self.model.fit(self.reference_window.reshape(-1, 1))
