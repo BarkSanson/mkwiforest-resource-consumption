@@ -11,7 +11,9 @@ def main():
     pulse.generate_trigger_pulse()
     window_size = int(sys.argv[1])
 
-    blocks = []
+    np.random.seed(42)
+
+    blocks = [np.random.normal(0.5, 0.1, window_size), np.random.normal(1, 0.1, window_size)]
 
     for _ in range(SAMPLES):
         model = MKWIForestBatchPipeline(
